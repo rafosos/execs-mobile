@@ -35,6 +35,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) { navigate(Exec2.class); }
         });
+
+        Button btnExec3 = findViewById(R.id.btnExec3);
+        btnExec3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { navigate(Exec3.class); }
+        });
     }
 
     private void navigate(Class goal){

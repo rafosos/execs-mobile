@@ -38,7 +38,7 @@
             android:layout_height="0dp"
             android:layout_weight="2"
             android:hint="0"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:paddingRight="15dp"
             android:textAlignment="textEnd"
             android:textSize="28sp"
