@@ -27,10 +27,18 @@ public class MainActivity extends AppCompatActivity {
         Button btnExec1 = findViewById(R.id.btnExec1);
         btnExec1.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, exec1.class);
-                startActivity(intent);
-            }
+            public void onClick(View v) { navigate(Exec1.class); }
         });
+
+        Button btnExec2 = findViewById(R.id.btnExec2);
+        btnExec2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { navigate(Exec2.class); }
+        });
+    }
+
+    private void navigate(Class goal){
+        Intent intent = new Intent(MainActivity.this, goal);
+        startActivity(intent);
     }
 }

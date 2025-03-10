@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Exec2">
+
+    <TextView
+        android:id="@+id/btnVoltar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="voltar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/layoutVisores"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/btnVoltar">
+
+        <TextView
+            android:id="@+id/visorHist"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textAlignment="textEnd" />
+
+        <EditText
+            android:id="@+id/visorAtual"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:hint="0"
+            android:inputType="number"
+            android:paddingRight="15dp"
+            android:textAlignment="textEnd"
+            android:textSize="28sp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutMaisMenos"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/layoutVisores">
+
+        <Button
+            android:id="@+id/btnMais"
+            android:textSize="28sp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="#808080"
+            android:text="+" />
+
+        <Button
+            android:id="@+id/btnMenos"
+            android:textSize="28sp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:backgroundTint="#808080"
+            android:layout_weight="1"
+            android:text="-" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutVezesDividir"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/layoutMaisMenos">
+
+        <Button
+            android:id="@+id/btnVezes"
+            android:textSize="28sp"
+            android:backgroundTint="#808080"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="x" />
+
+        <Button
+            android:id="@+id/btnDividir"
+            android:backgroundTint="#808080"
+            android:textSize="28sp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text=":" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutApagarIgual"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/layoutVezesDividir">
+
+        <Button
+            android:id="@+id/btnApagar"
+            android:layout_width="0dp"
+            android:textSize="20sp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="C" />
+
+        <Button
+            android:id="@+id/btnIgual"
+            android:backgroundTint="#e27602"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:textSize="28sp"
+            android:text="=" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
