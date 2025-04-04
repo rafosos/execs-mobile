@@ -11,6 +11,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.aulasmobile.todo.ToDo;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -47,6 +49,16 @@ public class MainActivity extends AppCompatActivity {
         TextView mapa = findViewById(R.id.mapa);
         mapa.setOnClickListener(new View.OnClickListener(){
             @Override public  void onClick(View v){ navigate(Maps.class);}
+        });
+
+        TextView crud = findViewById(R.id.crud);
+        crud.setOnClickListener(new View.OnClickListener(){
+            @Override public void onClick(View v){ navigate(DbTeste.class);}
+        });
+
+        TextView todo = findViewById(R.id.todo);
+        todo.setOnClickListener(new View.OnClickListener(){
+            @Override public void onClick(View v){ navigate(ToDo.class);}
         });
     }
 

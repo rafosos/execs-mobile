@@ -7,17 +7,21 @@
         android:required="false" />
     <uses-feature android:name="android.permission.CALL_PHONE" />
     <uses-feature android:name="android.permission.INTERNET" />
-    <uses-feature android:name="android.permission.READ_CONTACTS" />
-
-<!--    mandar email e sms-->
+    <uses-feature android:name="android.permission.READ_CONTACTS" /> <!-- mandar email e sms -->
     <queries>
         <intent>
-            <action android:name="android.intent.action.SENDTO"/>
-            <data android:scheme="smsto" android:host="*" />
+            <action android:name="android.intent.action.SENDTO" />
+
+            <data
+                android:host="*"
+                android:scheme="smsto" />
         </intent>
         <intent>
-            <action android:name="android.intent.action.SENDTO"/>
-            <data android:scheme="mailto" android:host="*" />
+            <action android:name="android.intent.action.SENDTO" />
+
+            <data
+                android:host="*"
+                android:scheme="mailto" />
         </intent>
     </queries>
 
@@ -31,6 +35,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AulasMobile"
         tools:targetApi="31">
+        <activity
+            android:name=".todo.ToDo"
+            android:exported="false" />
+        <activity
+            android:name=".DbTeste"
+            android:exported="false" />
         <activity
             android:name=".Maps"
             android:exported="false" />
