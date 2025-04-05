@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+    <TextView
+        android:layout_gravity="center"
+        android:id="@+id/titulo"
+        android:textSize="26dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Letterboxd da AC1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tituloSecao"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titulo"
+        android:text="Cadastrar filme"/>
+
+    <TextView
+        android:id="@+id/labelTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/tituloSecao"
+        android:text="Titulo"/>
+
+    <EditText
+        android:id="@+id/inputTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/labelTitulo"
+        android:hint="Ex.: VelociPastor..."/>
+
+    <TextView
+        android:id="@+id/labelDiretor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/inputTitulo"
+        android:text="Diretor"/>
+
+    <EditText
+        android:id="@+id/inputDiretor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/labelDiretor"
+        android:hint="Ex.: Brendan Steere..."/>
+
+    <LinearLayout
+        android:id="@+id/containerAnoGenero"
+        app:layout_constraintTop_toBottomOf="@+id/inputDiretor"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/containerAno"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/labelLancamento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Ano de lançamento"/>
+
+            <EditText
+                android:inputType="number"
+                android:id="@+id/inputLancamento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/labelLancamento"
+                android:hint="Ex.: 2017..."/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/containerGenero"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/labelGenero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Gênero"/>
+
+            <Spinner
+                android:id="@+id/spinnerGenero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/labelGenero"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/containerNota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/containerAnoGenero"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/estrela1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:src="@drawable/estrela_vazia"/>
+
+        <ImageButton
+            android:id="@+id/estrela2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:src="@drawable/estrela_vazia"/>
+
+        <ImageButton
+            android:id="@+id/estrela3"
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/estrela_vazia"/>
+
+        <ImageButton
+            android:id="@+id/estrela4"
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/estrela_vazia"/>
+
+        <ImageButton
+            android:id="@+id/estrela5"
+            android:layout_width="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/estrela_vazia"/>
+    </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/cinema"
+        app:layout_constraintTop_toBottomOf="@+id/containerNota"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Já vi no cinema"/>
+
+    <Button
+        android:id="@+id/btnSalvar"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="35dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/cinema"
+        android:layout_height="wrap_content"
+        android:text="SALVAR FILME"/>
+
+    <TextView
+        android:id="@+id/tituloLista"
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/btnSalvar"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Filmes Cadastrados"/>
+
+        <LinearLayout
+            android:id="@+id/containerFiltro"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+        <Spinner
+            android:id="@+id/spinnerFiltro"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"/>
+
+        <ImageButton
+            android:id="@+id/btnFiltro"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/lupa"/>
+        </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/containerFilmes"
+        app:layout_constraintTop_toBottomOf="@+id/containerFiltro"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>
