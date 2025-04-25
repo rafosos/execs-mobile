@@ -35,6 +35,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AulasMobile"
         tools:targetApi="31">
+
+        <service
+            android:name=".Threadss$ServicoTop"
+            android:icon="@drawable/ic_launcher_foreground"
+            android:label="Meu Servico"
+            android:process=":meu_processo" />
+
+        <activity
+            android:name=".Threadss"
+            android:exported="false" />
         <activity
             android:name=".todo.ToDo"
             android:exported="false" />

@@ -60,6 +60,11 @@ public class MainActivity extends AppCompatActivity {
         todo.setOnClickListener(new View.OnClickListener(){
             @Override public void onClick(View v){ navigate(ToDo.class);}
         });
+
+        TextView threading = findViewById(R.id.thread);
+        threading.setOnClickListener(new View.OnClickListener(){
+            @Override public void onClick(View v){ navigate(Threadss.class);}
+        });
     }
 
     private void navigate(Class goal){
