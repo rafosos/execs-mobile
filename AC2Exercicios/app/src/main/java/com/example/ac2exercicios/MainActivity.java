@@ -1,11 +1,18 @@
 package com.example.ac2exercicios;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.CountDownTimer;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +23,9 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,18 +34,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-    Handler handler = new Handler();
+    final String CANAL_NOTIFICACAO = "Contador";
+    final String BROADCAST_NAME = "contador";
+    final String ID_CANAL_NOTIFICACAO = "treino";
+    final String DESC_CANAL_NOTIFICACAO = "Contador do treino";
+    final int PERMISSION_REQUEST_NOTIFICATION = 101;
+    NotificationManagerCompat manager;
+    int notificationId = 123;
+    int exercicioAtivo = 0;
     EditText inputNome;
     EditText inputTempo;
+    TextView execAtivo;
     Button btnAdd;
     Button btnIniciar;
     LinearLayout layoutExercicios;
     List<Exercicio> exercicios = new ArrayList<>();
-    List<LinearLayout> viewsExercicios = new ArrayList<>();
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = CANAL_NOTIFICACAO;
+            String description = DESC_CANAL_NOTIFICACAO;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(ID_CANAL_NOTIFICACAO, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.createNotificationChannel();
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -48,7 +77,11 @@ public class MainActivity extends AppCompatActivity {
         inputNome = findViewById(R.id.inputNome);
         inputTempo = findViewById(R.id.inputTempo);
         btnAdd = findViewById(R.id.btnAdd);
+        execAtivo = findViewById(R.id.execAtivo);
         btnIniciar = findViewById(R.id.btnIniciar);
+        layoutExercicios = findViewById(R.id.layoutExercicios);
+        manager = NotificationManagerCompat.from(this);
+
 
         btnAdd.setOnClickListener(v -> {
             String nome = inputNome.getText().toString();
@@ -66,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
             //criacao layout pai
             LinearLayout container = new LinearLayout(this);
             container.setOrientation(LinearLayout.HORIZONTAL);
+            container.setLayoutParams(new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, //width
+                    ViewGroup.LayoutParams.WRAP_CONTENT //height
+            ));
 
             //nome exec
             TextView nomeExercicio = new TextView(this);
@@ -100,24 +137,79 @@ public class MainActivity extends AppCompatActivity {
                 exercicios.remove(exec);
                 layoutExercicios.removeView(container);
             });
+            container.addView(iconeApagar);
 
             layoutExercicios.addView(container);
+            inputNome.setText("");
+            inputTempo.setText("");
         });
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (BROADCAST_NAME.equals(intent.getAction())){
+                    String exercicio = intent.getStringExtra("nome");
+                    long segundos = intent.getLongExtra("segundos",0);
+                    boolean acabou = intent.getBooleanExtra("acabou", false);
+
+
+                    if(acabou){
+                        exercicioAtivo++;
+                        iniciarServico();
+                    }else{
+                        String mensagem = exercicio + " - " + segundos + "s";
+                        lancarNotificacao(mensagem);
+                        execAtivo.setText(mensagem);
+                    }
+                }
+
+            }
+        };
+        IntentFilter filter = new IntentFilter("contador");
+        registerReceiver(broadcastReceiver, filter, RECEIVER_NOT_EXPORTED);
 
         btnIniciar.setOnClickListener(v -> {
-            for (Exercicio exercicio : exercicios) {
-                handler.post()
-            }
-            Intent c = new Intent(this, Contador.class);
-            c.putExtra("nome", "teste");
-            c.putExtra("segundos", 10);
-            this.startService(c);
+             iniciarServico();
         });
     }
 
+    public void iniciarServico(){
+        btnIniciar.setEnabled(false);
+        if(exercicioAtivo < (long) exercicios.size()){
+            Intent c = new Intent(this, Contador.class);
+            c.putExtra("nome", exercicios.get(exercicioAtivo).nome);
+            c.putExtra("segundos", exercicios.get(exercicioAtivo).tempo);
+            this.startService(c);
+        }else{
+            btnIniciar.setEnabled(true);
+            execAtivo.setText("Nenhum exercicio ativo...");
+            exercicioAtivo = 0;
+            manager.cancel(notificationId);
+        }
+    }
+
+    public void lancarNotificacao(String texto){
+        Intent intent = new Intent(this, this.getClass());
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.setAction(Intent.ACTION_MAIN);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, ID_CANAL_NOTIFICACAO)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Treino")
+                .setContentText(texto)
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, PERMISSION_REQUEST_NOTIFICATION);
+            return;
+        }
+        manager.notify(notificationId, builder.build());
+    }
+
+
     public static class Contador extends Service {
 
-        private Handler handler = new Handler();
         private int segundos = 0;
 
         @Override
@@ -125,18 +217,29 @@ public class MainActivity extends AppCompatActivity {
             String nome = intent.getStringExtra("nome");
             segundos = intent.getIntExtra("segundos", 0);
 
-            handler.post(new Runnable() {
+            CountDownTimer timer = new CountDownTimer(segundos*1000, 1000) {
                 @Override
-                public void run() {
-                    Log.d("debugggg", String.valueOf(segundos));
-                    if(segundos <= 0){
-                        stopSelf();
-                    }else{
-                        segundos--;
-                        handler.postDelayed(this, 1000);
-                    }
+                public void onTick(long millisUntilFinished) {
+                    Intent intent = new Intent("contador");
+                    intent.setPackage(getPackageName());
+                    intent.putExtra("nome",nome);
+                    intent.putExtra("acabou",false);
+                    intent.putExtra("segundos", millisUntilFinished/1000);
+                    sendBroadcast(intent);
                 }
-            });
+
+                @Override
+                public void onFinish() {
+                    Intent intent = new Intent("contador");
+                    intent.putExtra("acabou",true);
+                    intent.setPackage(getPackageName());
+                    intent.putExtra("nome", "Nenhum exercicio ativo...");
+                    intent.putExtra("segundos", 0);
+                    sendBroadcast(intent);
+                }
+            };
+            timer.start();
+
             return Service.START_NOT_STICKY;
         }
 
